@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Little Light Project</title>
+<meta name="description" content="A high-school-led nonprofit that brings birthday celebrations to children experiencing homelessness or chronic illness." />
+<style>
+
+  :root {
+    --bg: #141826;
+    --bg-elevated: #1B2036;
+    --bg-card: #202541;
+    --text: #F1EEE6;
+    --text-muted: #A7ACC2;
+    --border: #2E3352;
+    --accent: #F4B740;
+    --accent-soft: #F8D488;
+    --accent-deep: #C97C3D;
+    --accent-ink: #2A1B04;
+
+    --font-display: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua", Georgia, serif;
+    --font-body: Seravek, "Gill Sans Nova", Corbis, Corbel, Calibri, "Segoe UI", sans-serif;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #EEF0F7;
+    --bg-elevated: #FFFFFF;
+    --bg-card: #F7F8FC;
+    --text: #1B2036;
+    --text-muted: #5B6178;
+    --border: #DADFF0;
+    --accent: #D9891F;
+    --accent-soft: #F3D9A6;
+    --accent-deep: #A85F1B;
+    --accent-ink: #FFF8EA;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #EEF0F7;
+      --bg-elevated: #FFFFFF;
+      --bg-card: #F7F8FC;
+      --text: #1B2036;
+      --text-muted: #5B6178;
+      --border: #DADFF0;
+      --accent: #D9891F;
+      --accent-soft: #F3D9A6;
+      --accent-deep: #A85F1B;
+      --accent-ink: #FFF8EA;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    background: var(--bg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .prose {
+    max-width: 640px;
+  }
+
+  /* ---------- nav ---------- */
+
+  nav.site {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav.site .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    color: var(--text);
+  }
+
+  .brand .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent),
+                0 0 14px 2px color-mix(in srgb, var(--accent) 55%, transparent);
+    flex: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 0.86rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible { color: var(--accent); }
+
+  .nav-links .cta {
+    color: var(--accent-ink);
+    background: var(--accent);
+    padding: 8px 16px;
+    border-radius: 999px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.9rem;
+  }
+  .nav-links .cta:hover { background: var(--accent-soft); color: var(--accent-ink); }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* ---------- hero ---------- */
+
+  header.hero {
+    position: relative;
+    padding: 108px 0 96px;
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  .glow {
+    position: absolute;
+    top: -120px;
+    right: -60px;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%,
+      color-mix(in srgb, var(--accent-soft) 90%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 45%, transparent) 32%,
+      transparent 68%);
+    filter: blur(6px);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .glow { animation: flicker 5s ease-in-out infinite alternate; }
+  }
+
+  @keyframes flicker {
+    from { opacity: 0.75; transform: scale(1); }
+    to   { opacity: 1;    transform: scale(1.05); }
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+
+  header.hero h1 {
+    font-size: clamp(2.4rem, 5.2vw, 3.8rem);
+    line-height: 1.12;
+    max-width: 14ch;
+    margin-bottom: 26px;
+  }
+
+  header.hero .lede {
+    max-width: 54ch;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.98rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+
+  .btn.primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .btn.primary:hover { background: var(--accent-soft); }
+
+  .btn.ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- sections ---------- */
+
+  section { padding: 88px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  section h2 {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    margin-bottom: 28px;
+  }
+
+  blockquote.mission {
+    margin: 0;
+    padding-left: 28px;
+    border-left: 3px solid var(--accent);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    line-height: 1.5;
+    color: var(--text);
+    max-width: 720px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 8px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px 26px;
+  }
+
+  .card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+    color: var(--accent-soft);
+  }
+
+  .card p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.98rem;
+  }
+
+  .involved-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .involved-item {
+    padding: 28px 0 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .involved-item h3 {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+
+  .involved-item p {
+    color: var(--text-muted);
+    font-size: 0.96rem;
+    margin: 0 0 16px;
+  }
+
+  .involved-item a.link {
+    text-decoration: none;
+    color: var(--accent);
+    font-size: 0.92rem;
+    font-weight: 500;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    padding-bottom: 2px;
+  }
+  .involved-item a.link:hover { color: var(--accent-soft); border-color: var(--accent-soft); }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    background: var(--bg-elevated);
+    padding: 56px 0 40px;
+  }
+
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+
+  footer .tagline {
+    max-width: 40ch;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+
+  footer .contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    font-size: 0.92rem;
+  }
+
+  footer .contacts a {
+    text-decoration: none;
+    color: var(--text-muted);
+  }
+  footer .contacts a:hover { color: var(--accent); }
+
+  .fine {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 820px) {
+    .cards, .involved-grid { grid-template-columns: 1fr; }
+    .nav-links { gap: 16px; }
+    .nav-links span.hide-narrow { display: none; }
+    footer .wrap { flex-direction: column; align-items: flex-start; }
+    footer .contacts { align-items: flex-start; }
+  }
+
+  @media (max-width: 560px) {
+    header.hero { padding: 88px 0 72px; }
+    .glow { width: 340px; height: 340px; top: -80px; right: -100px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="site">
+    <div class="wrap">
+      <a class="brand" href="#top">
+        <span class="dot" aria-hidden="true"></span>
+        Little Light Project
+      </a>
+      <div class="nav-links">
+        <span class="hide-narrow"><a href="#mission">Mission</a></span>
+        <span class="hide-narrow"><a href="#what-we-do">What We Do</a></span>
+        <a href="#involved">Get Involved</a>
+        <a class="cta" href="https://www.instagram.com/littlelightproject_/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="eyebrow">A student-led nonprofit</span>
+      <h1>No child's birthday goes unnoticed.</h1>
+      <p class="lede">Little Light Project brings joy and celebration to children experiencing homelessness or chronic illness — a little light on some of their hardest days.</p>
+      <div class="btn-row">
+        <a class="btn primary" href="#involved">Get Involved</a>
+        <a class="btn ghost" href="https://www.instagram.com/littlelightproject_/" target="_blank" rel="noopener">Follow Along</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="mission">
+    <div class="wrap">
+      <span class="section-label">Our Mission</span>
+      <blockquote class="mission">
+        “We believe every child deserves to feel celebrated and that no child's birthday goes unnoticed. Our high-school-led nonprofit brings joy and celebration to children experiencing homelessness or chronic illness — and a little light to some of their hardest days.”
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="what-we-do">
+    <div class="wrap">
+      <span class="section-label">What We Do</span>
+      <h2>Small acts, on purpose.</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Birthday Celebrations</h3>
+          <p>We plan and deliver birthday celebrations for children facing homelessness or serious illness, so the day still feels like a birthday.</p>
+        </div>
+        <div class="card">
+          <h3>Student-Led</h3>
+          <p>Every celebration is organized by high school volunteers who give their time to make someone else's day brighter.</p>
+        </div>
+        <div class="card">
+          <h3>A Little Light</h3>
+          <p>The goal is never grand gestures — it's showing up, being seen, and making a hard stretch of life feel a little less heavy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="involved">
+    <div class="wrap">
+      <span class="section-label">Get Involved</span>
+      <h2>Bring a little light with us.</h2>
+      <div class="involved-grid">
+        <div class="involved-item">
+          <h3>Volunteer</h3>
+          <p>If you're a high schooler and want to bring this to your school or community, we'd love to hear from you.</p>
+          <a class="link" href="mailto:contact.littlelightproject@gmail.com">Reach out →</a>
+        </div>
+        <div class="involved-item">
+          <h3>Spread the Word</h3>
+          <p>Follow along and share our work — it helps more kids get found and celebrated.</p>
+          <a class="link" href="https://www.instagram.com/littlelightproject_/" target="_blank" rel="noopener">@littlelightproject_ →</a>
+        </div>
+        <div class="involved-item">
+          <h3>Get in Touch</h3>
+          <p>Questions, ideas, or want to support a celebration? Send us an email.</p>
+          <a class="link" href="mailto:contact.littlelightproject@gmail.com">contact.littlelightproject@gmail.com →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div>
+        <a class="brand" href="#top">
+          <span class="dot" aria-hidden="true"></span>
+          Little Light Project
+        </a>
+        <p class="tagline">A little light on some of their hardest days.</p>
+      </div>
+      <div class="contacts">
+        <a href="mailto:contact.littlelightproject@gmail.com">contact.littlelightproject@gmail.com</a>
+        <a href="https://www.instagram.com/littlelightproject_/" target="_blank" rel="noopener">@littlelightproject_</a>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="fine">© 2026 Little Light Project. Made by student volunteers.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
